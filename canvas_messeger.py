@@ -28,6 +28,7 @@ Setup:
    DAYS_AHEAD=7  # Optional: default is 7
    CHECK_HOUR=8  # Optional: default is 8 AM
    CHECK_MINUTE=0  # Optional: default is on the hour
+   OLLAMA_MODEL=mistral  # Optional: default is 'mistral'
 
 3. Run the script:
    python your_script_name.py
@@ -67,6 +68,7 @@ ENV_VARS = {
     "DAYS_AHEAD": "7",  # Default value if not set
     "CHECK_HOUR": "8",     # Default to 8 AM
     "CHECK_MINUTE": "0",   # Default to on the hour
+    "OLLAMA_MODEL": "mistral",  # Default Ollama model name
 }
 
 # Configure logging
@@ -174,8 +176,9 @@ def estimate_time_via_ai(
         prompt += "Based on this, estimate how many hours the student will likely need to complete it. "
         prompt += "Respond with only a single number like '2' or '3.5'."
 
+        model_name = os.environ.get("OLLAMA_MODEL", "mistral")
         response = ollama.chat(
-            model="mistral",
+            model=model_name,
             messages=[{"role": "user", "content": prompt}]
         )
 
